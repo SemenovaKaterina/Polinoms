@@ -169,7 +169,6 @@ Polynom& Polynom::operator+(Polynom&x) //P1 + P2 сложение полиномов
 				tail->next = new Monom(p1->num + p2->num, p1->exp);
 				tail = tail->next;
 			}
-				//res->Insert(p1->num + p2->num, p1->exp);
 			p1 = p1->next;
 			p2 = p2->next;
 		}
@@ -178,7 +177,6 @@ Polynom& Polynom::operator+(Polynom&x) //P1 + P2 сложение полиномов
 			tail->next = new Monom(p1->num, p1->exp);
 			tail = tail->next;
 
-			//res->Insert(p1->num, p1->exp);
 			p1 = p1->next;
 		}
 		else
@@ -186,7 +184,6 @@ Polynom& Polynom::operator+(Polynom&x) //P1 + P2 сложение полиномов
 			tail->next = new Monom(p2->num, p2->exp);
 			tail = tail->next;
 
-			//res->Insert(p2->num, p2->exp);
 			p2 = p2->next;
 		}
 	}
@@ -195,7 +192,6 @@ Polynom& Polynom::operator+(Polynom&x) //P1 + P2 сложение полиномов
 		tail->next = new Monom(p1->num, p1->exp);
 		tail = tail->next;
 
-		//res->Insert(p1->num, p1->exp);
 		p1 = p1->next;
 	}
 	while (p2)
@@ -203,7 +199,6 @@ Polynom& Polynom::operator+(Polynom&x) //P1 + P2 сложение полиномов
 		tail->next = new Monom(p2->num, p2->exp);
 		tail = tail->next;
 
-		//res->Insert(p2->num, p2->exp);
 		p2 = p2->next;
 	}
 
@@ -219,12 +214,20 @@ Polynom& Polynom::operator-(Polynom&x) //P1 - P2 вычитание полиномов
 	Polynom*res = new Polynom();
 	Monom*p1 = this->first;
 	Monom*p2 = x.first;
+	Monom * tail;
+
+	res->first = new Monom;
+	tail = res->first;
+
 	while (p1 && p2)
 	{
 		if (p1->exp == p2->exp)
 		{
 			if (p1->num - p2->num)
-				res->Insert(p1->num - p2->num, p1->exp);
+			{
+				tail->next = new Monom(p1->num - p2->num, p1->exp);
+				tail = tail->next;
+			}
 			p1 = p1->next;
 			p2 = p2->next;
 		}
@@ -235,18 +238,21 @@ Polynom& Polynom::operator-(Polynom&x) //P1 - P2 вычитание полиномов
 		}
 		else
 		{
-			res->Insert((-1) * p2->num, p2->exp);
+			tail->next = new Monom(p1->num, p1->exp);
+			tail = tail->next;
 			p2 = p2->next;
 		}
 	}
 	while (p1)
 	{
-		res->Insert(p1->num, p1->exp);
+		tail->next = new Monom(p1->num, p1->exp);
+		tail = tail->next;
 		p1 = p1->next;
 	}
 	while (p2)
 	{
-		res->Insert((-1) * p2->num, p2->exp);
+		tail->next = new Monom(p2->num, p2->exp);
+		tail = tail->next;
 		p2 = p2->next;
 	}
 	return *res;
